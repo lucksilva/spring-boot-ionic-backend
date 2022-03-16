@@ -4,12 +4,12 @@ import com.lcorreia.cursomc.domain.Categoria;
 import com.lcorreia.cursomc.dto.CategoriaDTO;
 import com.lcorreia.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +52,17 @@ public class CategoriaResource {
     public ResponseEntity<List<CategoriaDTO>> findAll () {
         List<Categoria> list = service.findAll();
         List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoriaDTO>> findPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linePerPage", defaultValue = "24") Integer linePerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String ordeBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Categoria> list = service.findPage(page, linePerPage, ordeBy, direction);
+        Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
         return ResponseEntity.ok().body(listDto);
     }
 
