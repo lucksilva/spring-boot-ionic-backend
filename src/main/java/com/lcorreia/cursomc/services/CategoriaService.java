@@ -1,6 +1,7 @@
 package com.lcorreia.cursomc.services;
 
 import com.lcorreia.cursomc.domain.Categoria;
+import com.lcorreia.cursomc.dto.CategoriaDTO;
 import com.lcorreia.cursomc.repositories.CategoriaRepository;
 import com.lcorreia.cursomc.services.exceptions.DataIntegrityException;
 import org.hibernate.ObjectNotFoundException;
@@ -53,6 +54,10 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linePerPage, String ordeBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linePerPage, Sort.Direction.valueOf(direction), ordeBy);
         return repo.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objDto){
+        return new Categoria(objDto.getId(), objDto.getNome());
     }
 //
 }
