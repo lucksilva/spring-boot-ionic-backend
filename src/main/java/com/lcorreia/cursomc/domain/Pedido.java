@@ -104,4 +104,14 @@ public class Pedido implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public Double getValorTotal(){
+        double soma = 0;
+
+        for (ItemPedido ip : itens) {
+            soma += ip.getSubTotal();
+        }
+
+        return soma;
+    }
 }
