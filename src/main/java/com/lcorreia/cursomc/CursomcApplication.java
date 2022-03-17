@@ -2,7 +2,7 @@ package com.lcorreia.cursomc;
 
 import com.lcorreia.cursomc.domain.*;
 import com.lcorreia.cursomc.domain.enums.EstadoPagamento;
-import com.lcorreia.cursomc.domain.enums.PagamentoComCartão;
+import com.lcorreia.cursomc.domain.PagamentoComCartão;
 import com.lcorreia.cursomc.domain.enums.TipoCliente;
 import com.lcorreia.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
