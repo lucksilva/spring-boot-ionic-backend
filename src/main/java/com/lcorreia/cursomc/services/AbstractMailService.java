@@ -4,7 +4,6 @@ import com.lcorreia.cursomc.domain.Pedido;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class AbstractMailService implements EmailService{
