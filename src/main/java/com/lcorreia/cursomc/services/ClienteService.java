@@ -4,13 +4,17 @@ import com.lcorreia.cursomc.domain.Categoria;
 import com.lcorreia.cursomc.domain.Cidade;
 import com.lcorreia.cursomc.domain.Cliente;
 import com.lcorreia.cursomc.domain.Endereco;
+import com.lcorreia.cursomc.domain.enums.Perfil;
 import com.lcorreia.cursomc.domain.enums.TipoCliente;
 import com.lcorreia.cursomc.dto.CategoriaDTO;
 import com.lcorreia.cursomc.dto.ClienteDTO;
 import com.lcorreia.cursomc.dto.ClienteNewDTO;
 import com.lcorreia.cursomc.repositories.ClienteRepository;
 import com.lcorreia.cursomc.repositories.EnderecoRepository;
+import com.lcorreia.cursomc.security.UserSS;
+import com.lcorreia.cursomc.services.exceptions.AuthorizationException;
 import com.lcorreia.cursomc.services.exceptions.DataIntegrityException;
+import com.sun.security.auth.UnixNumericUserPrincipal;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,6 +41,11 @@ public class ClienteService {
     private BCryptPasswordEncoder pe;
 
     public Cliente find(Integer id) {
+
+        UserSS user = UserService.autenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("ACESSO NEGADO!");
+        }
 
         Optional<Cliente> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(" Objeto não encontrado! ID: " + id, Cliente.class.getName()));
